@@ -12,11 +12,7 @@ inquirer.prompt([
         name: 'description',
         message: 'Enter your project description'
     },
-    {
-        type: "input",
-        name: 'tableOfContents',
-        message: 'Enter your table of contents'
-    },
+    
     {
         type: "input",
         name: 'installation',
@@ -60,6 +56,16 @@ inquirer.prompt([
     }
 ])
 .then((answers) => {
+    const content = `
+    ## Table of Contents
+- [Description](#description)
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributions](#contributions)
+- [Tests](#tests)
+- [Questions](#questions)
+`;
     const readme = `
 # ${answers.projectTitle}
 
@@ -67,7 +73,7 @@ inquirer.prompt([
 ${answers.description}
 
 ## Table of Contents
-${answers.tableOfContents}
+${content}
 
 ## Installation
 ${answers.installation}
