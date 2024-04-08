@@ -1,60 +1,53 @@
-const inquirer = require('inquirer')
-const fs = require('fs')
+const inquirer = require('inquirer');
+const fs = require('fs');
+
 inquirer.prompt([
     {
-        type : "input",
+        type: "input",
         name: 'projectTitle',
-        message: 'Enter your project title' 
-
-    }
+        message: 'Enter your project title'
+    },
     {
-        type : "input",
+        type: "input",
         name: 'description',
-        message: 'Enter your project desctription' 
-
-    }
+        message: 'Enter your project description'
+    },
     {
-        type : "input",
+        type: "input",
         name: 'tableOfContents',
-        message: 'Enter your table of contents' 
-
-    }
+        message: 'Enter your table of contents'
+    },
     {
-        type : "input",
+        type: "input",
         name: 'installation',
-        message: 'Enter your project installation' 
-
-    }
+        message: 'Enter your project installation'
+    },
     {
-        type : "input",
+        type: "input",
         name: 'usage',
-        message: 'Enter your project usage' 
-
-    }
+        message: 'Enter your project usage'
+    },
     {
-        type : "input",
-        name: 'License',
-        message: 'Enter your project license' 
-
-    }
+        type: "list", 
+        name: 'license',
+        message: 'Choose a license for your project:',
+        choices: ['MIT', 'Apache', 'GNU', 'BSD']
+    },
     {
-        type : "input",
+        type: "input",
         name: 'contributions',
-        message: 'Enter your project contributions' 
-
-    }
+        message: 'Enter your project contributions'
+    },
     {
-        type : "input",
-        name: 'Tests',
-        message: 'Enter your project tests' 
-
-    }
+        type: "input",
+        name: 'tests',
+        message: 'Enter your project tests'
+    },
     {
-        type : "input",
+        type: "input",
         name: 'questions',
-        message: 'Enter your project question' 
-
-    }
+        message: 'Enter your project question'
+    },
     {
         type: 'input',
         name: 'githubUsername',
@@ -65,13 +58,42 @@ inquirer.prompt([
         name: 'email',
         message: 'Enter your email address:'
     }
-    .then((answers)=> {
-        const readme =`
-        # ${answers.projectTitle}
-        ## description
-
-        
-        
-    `}
-)
 ])
+.then((answers) => {
+    const readme = `
+# ${answers.projectTitle}
+
+## Description
+${answers.description}
+
+## Table of Contents
+${answers.tableOfContents}
+
+## Installation
+${answers.installation}
+
+## Usage
+${answers.usage}
+
+## License
+[![License](https://img.shields.io/badge/License-${answers.license}-blue.svg)](https://opensource.org/licenses/${answers.license})
+This project is licensed under the ${answers.license} License.
+
+## Contributing
+${answers.contributions}
+
+## Tests
+${answers.tests}
+
+## Questions
+- GitHub: [${answers.githubUsername}](https://github.com/${answers.githubUsername})
+- Email: [${answers.email}](mailto:${answers.email})
+`;
+
+    fs.writeFileSync('README.md', readme);
+
+    console.log('README.md file generated successfully!');
+})
+.catch((error) => {
+    console.error('Error occurred:', error);
+});
